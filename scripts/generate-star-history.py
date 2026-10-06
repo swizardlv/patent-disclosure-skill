@@ -195,10 +195,10 @@ def build_daily_points(items: list[dict]) -> list[tuple[dt.date, int]]:
         dates.append(dt.datetime.fromisoformat(starred_at.replace("Z", "+00:00")).date())
 
     if not dates:
-        raise RuntimeError(
-            "GitHub did not return starred_at timestamps. "
-            "Make sure the request uses Accept: application/vnd.github.star+json and a token with access."
-        )
+        # Zero stars: render a single zero point for today instead of failing,
+        # so the scheduled workflow stays green and the chart fills in later.
+        today = dt.datetime.now(dt.timezone.utc).date()
+        return [(today, 0)]
 
     dates.sort()
     start = dates[0]
@@ -215,6 +215,9 @@ def build_daily_points(items: list[dict]) -> list[tuple[dt.date, int]]:
 
 
 def nice_y_ticks(max_y: int) -> list[int]:
+    if max_y <= 5:
+        # Tiny counts (e.g. zero-star repos): integer ticks, no fractional steps.
+        return list(range(0, max_y + 1))
     rough_step = max_y / 5
     power = 10 ** math.floor(math.log10(rough_step)) if rough_step > 0 else 1
     step = power

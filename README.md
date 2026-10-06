@@ -196,7 +196,7 @@
 <img src="docs/thanks.jpg" alt="随缘支持" width="200" />
 </td>
 <td width="60%" valign="middle" align="center">
-<img alt="Star History Chart" src="https://raw.githubusercontent.com/handsomestWei/patent-disclosure-skill/star-history/star-history.svg" width="100%" />
+<img alt="Star History Chart" src="https://raw.githubusercontent.com/swizardlv/patent-disclosure-skill/star-history/star-history.svg" width="100%" />
 </td>
 </tr>
 </table>
